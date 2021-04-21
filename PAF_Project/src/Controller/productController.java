@@ -71,6 +71,46 @@ public class productController {
 		return output;
 	}
 	
+	//Insert Product Details
+	
+		public String insertProducts(Product product) {
+			
+			String output = "";
+
+			try {
+
+				Connection con = db.connect();
+
+				if (con == null) {
+
+					return "Error while connecting to the database";
+				}
+
+				// insert data
+
+				String query = " insert into products (`pCode`,`pName`,`description`,`inventor`,`price`,`quantity`)"
+						+ " values (?, ?, ?, ?, ?, ?)";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				
+				preparedStmt.setString(1, product.getpCode());
+				preparedStmt.setString(2, product.getpName());
+				preparedStmt.setString(3, product.getDescription());
+				preparedStmt.setString(4, product.getInventor());
+				preparedStmt.setDouble(5, product.getPrice());
+				preparedStmt.setInt(6, product.getQuantity());
+
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = "Inserted successfully";
+			} catch (Exception e) {
+
+				output = "Error while inserting";
+				System.err.println(e.getMessage());
+			}
+
+			return output;
+		}
 	
 	
 	
