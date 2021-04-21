@@ -57,5 +57,27 @@ public class productService {
 
 		}
 		
-	
+		//Update Products
+		
+		@PUT
+		@Path("/")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.TEXT_PLAIN)
+		public String updateAppType(String TypeData) {
+
+			// Convert the input string to a JSON object
+			JsonObject djosnObj = new JsonParser().parse(TypeData).getAsJsonObject();
+			Product product = new Product();
+
+			product.setpID(djosnObj.get("pID").getAsInt());
+			product.setpCode(djosnObj.get("pCode").getAsString());
+			product.setpName(djosnObj.get("pName").getAsString());
+			product.setDescription(djosnObj.get("description").getAsString());
+			product.setInventor(djosnObj.get("inventor").getAsString());
+			product.setPrice(djosnObj.get("price").getAsDouble());
+			product.setQuantity(djosnObj.get("quantity").getAsInt());
+			
+			String output = products.updateProducts(product);
+			return output;
+		}
 }

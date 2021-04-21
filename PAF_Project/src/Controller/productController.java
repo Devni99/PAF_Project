@@ -111,6 +111,43 @@ public class productController {
 
 			return output;
 		}
+		
+		
+		//Update Product Details
+
+		public String updateProducts(Product product) {
+
+			String output = "";
+
+			try {
+				Connection con = db.connect();
+				if (con == null) {
+					return "Error while connecting to the database for updating.";
+				}
+				// create a prepared statement
+				String query = "UPDATE products SET pCode=?,pName=?,description=?,inventor=?,price=?,quantity=? WHERE pID =?";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+
+				// binding values
+
+				preparedStmt.setString(1, product.getpCode());
+				preparedStmt.setString(2, product.getpName());
+				preparedStmt.setString(3, product.getDescription());
+				preparedStmt.setString(4, product.getInventor());
+				preparedStmt.setDouble(5, product.getPrice());
+				preparedStmt.setDouble(6, product.getQuantity());
+				preparedStmt.setDouble(7, product.getpID());
+				
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = " Product ID : "+product.getpID()+" Updated successfully ";
+			} catch (Exception e) {
+				output = "Error while updating the Product ID" + product.getpID();
+				System.err.println(e.getMessage());
+			}
+			return output;
+		}
 	
 	
 	
