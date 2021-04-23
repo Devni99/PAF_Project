@@ -28,7 +28,8 @@ public class productController {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><th>Product Code</th>"
+			output = "<table border='1'><th>Product ID</th>"
+					+ "<th>Product Code</th>"
 					+ "<th>Product Name</th>"
 					+ "<th>Product Description</th>"
 					+ "<th>Inventor Name</th>"
@@ -51,7 +52,8 @@ public class productController {
 			    product.setQuantity(rs.getInt("quantity"));
 				
 				// Add a row into the html table
-				output += "<tr><td>" + product.getpCode() + "</td>";
+				output += "<tr><td>" + product.getpID() + "</td>";
+				output += "<td>" + product.getpCode() + "</td>";
 				output += "<td>" + product.getpName() + "</td>";
 				output += "<td>" + product.getDescription() + "</td>"; 
 				output += "<td>" + product.getInventor() + "</td>";
@@ -146,6 +148,37 @@ public class productController {
 				output = "Error while updating the Product ID" + product.getpID();
 				System.err.println(e.getMessage());
 			}
+			return output;
+		}
+		
+		//Delete QUERY
+		
+		public String deleteProduct(Product product) {
+			String output = "";
+			try {
+
+				Connection con = db.connect();
+				if (con == null) {
+					return "Error while connecting to the database for deleting.";
+				}
+
+				// create a prepared statement
+				String query = "DELETE FROM products WHERE pID=?";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+
+				// binding values
+				 preparedStmt.setInt(1, product.getpID());
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = "Product Id : "+product.getpID()+" Deleted successfully";
+
+			} catch (Exception e) {
+
+				output = "Error while deleting the  Product Id :" + product.getpID();
+				System.err.println(e.getMessage());
+			}
+
 			return output;
 		}
 	

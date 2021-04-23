@@ -35,10 +35,10 @@ public class productService {
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_JSON) 
 		@Produces(MediaType.TEXT_PLAIN)
-		public String enterType(String TypeData) {
+		public String insertproduct(String ProductData) {
 			// Convert the input string to a JSON object
 			
-			JsonObject djosnObj = new JsonParser().parse(TypeData).getAsJsonObject();
+			JsonObject djosnObj = new JsonParser().parse(ProductData).getAsJsonObject();
 		
 			Product product = new Product();
 			
@@ -63,10 +63,10 @@ public class productService {
 		@Path("/")
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.TEXT_PLAIN)
-		public String updateAppType(String TypeData) {
+		public String updateProducts(String ProductData) {
 
 			// Convert the input string to a JSON object
-			JsonObject djosnObj = new JsonParser().parse(TypeData).getAsJsonObject();
+			JsonObject djosnObj = new JsonParser().parse(ProductData).getAsJsonObject();
 			Product product = new Product();
 
 			product.setpID(djosnObj.get("pID").getAsInt());
@@ -80,4 +80,22 @@ public class productService {
 			String output = products.updateProducts(product);
 			return output;
 		}
-}
+		
+		
+		//Delete Product
+
+		@DELETE
+		@Path("/")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.TEXT_PLAIN)
+		public String deleteProduct(String ProductData) {
+			// Convert the input string to a JSON object
+			JsonObject doc = new JsonParser().parse(ProductData).getAsJsonObject();
+			Product product = new Product();
+
+			// Read the value from the element <ID>
+			product.setpID(doc.get("pID").getAsInt());
+			String output = products.deleteProduct(product);
+			return output;
+		}
+	}
